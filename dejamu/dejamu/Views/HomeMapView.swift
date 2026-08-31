@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeMapView.swift
 //  dejamu
 //
 //  Created by Seoyoung Lee on 8/18/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeMapView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -20,5 +20,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    HomeMapView()
 }

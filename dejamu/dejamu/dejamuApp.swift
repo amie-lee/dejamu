@@ -11,7 +11,7 @@ import SwiftUI
 struct dejamuApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeMapView()
         }
     }
 }
