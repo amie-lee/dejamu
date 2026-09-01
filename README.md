@@ -30,7 +30,7 @@ everything stays on your device.
 - [x] **4** Location permission + coordinates + reverse geocoding → *pins land on my actual location*
 - [x] **5** EntryDetailView + edit/delete → *CRUD complete*
 - [x] **6** Bottom sheet + weekly strip + list/calendar → *home screen complete*
-- [ ] **7** Share card → *an image comes out*
+- [x] **7** Share card → *an image comes out*
 - [ ] **8** RevenueCat + paywall + gating → *sandbox purchase goes through*
 - [ ] **9** Onboarding / settings / empty states / error handling → *a first-time user doesn't get lost*
 - [ ] **10** Widget · recall notifications (if time allows)
