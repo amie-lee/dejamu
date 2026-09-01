@@ -13,12 +13,16 @@ struct HomeMapView: View {
     @Query private var entries: [Entry]
     @State private var position: MapCameraPosition = .automatic
     @State private var isPresentingRecordSheet = false
+    @State private var selectedEntry: Entry?
 
     var body: some View {
         Map(position: $position) {
             ForEach(pinnedEntries, id: \.entry.id) { pinned in
                 Annotation(pinned.entry.title, coordinate: pinned.coordinate) {
                     EntryPinView(entry: pinned.entry)
+                        .onTapGesture {
+                            selectedEntry = pinned.entry
+                        }
                 }
             }
         }
@@ -37,6 +41,9 @@ struct HomeMapView: View {
         }
         .sheet(isPresented: $isPresentingRecordSheet) {
             RecordSheet()
+        }
+        .sheet(item: $selectedEntry) { entry in
+            EntryDetailView(entry: entry)
         }
     }
 

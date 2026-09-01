@@ -61,4 +61,8 @@ extension Entry {
         guard let latitude, let longitude else { return nil }
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
+
+    var largeArtworkURL: String {
+        artworkURL.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg")
+    }
 }
