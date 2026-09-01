@@ -27,7 +27,7 @@ everything stays on your device.
 - [x] **1** Project setup + SwiftData `Entry` model + 3 dummy entries → *three pins show on the map*
 - [x] **2** RecordSheet (text input only) → save → *core loop complete*
 - [x] **3** iTunes Search API + preview playback → *the chosen song's artwork becomes a pin*
-- [ ] **4** Location permission + coordinates + reverse geocoding → *pins land on my actual location*
+- [x] **4** Location permission + coordinates + reverse geocoding → *pins land on my actual location*
 - [ ] **5** EntryDetailView + edit/delete → *CRUD complete*
 - [ ] **6** Bottom sheet + weekly strip + list/calendar → *home screen complete*
 - [ ] **7** Share card → *an image comes out*
