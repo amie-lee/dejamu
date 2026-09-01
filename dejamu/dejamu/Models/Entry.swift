@@ -66,5 +66,3 @@ extension Entry {
         artworkURL.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg")
     }
 }
-
-extension Entry: Identifiable {}
