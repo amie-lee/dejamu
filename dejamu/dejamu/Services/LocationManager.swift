@@ -40,7 +40,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         guard let placemark = try? await CLGeocoder().reverseGeocodeLocation(location).first else {
             return nil
         }
-        return placemark?.locality ?? placemark?.name
+        return placemark.locality ?? placemark.name
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
