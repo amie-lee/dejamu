@@ -5,6 +5,7 @@
 //  Created by Seoyoung Lee on 8/18/26.
 //
 
+import CoreLocation
 import SwiftData
 import SwiftUI
 
@@ -18,9 +19,11 @@ struct RecordSheet: View {
     @State private var date = Date.now
     @State private var isLocationOn = true
 
+    @State private var locationManager = LocationManager()
+    @State private var resolvedCoordinate: CLLocationCoordinate2D?
+    @State private var resolvedPlaceName: String?
+
     private static let noteLimit = 140
-    private static let placeholderLatitude = 37.5665
-    private static let placeholderLongitude = 126.9780
 
     var body: some View {
         NavigationStack {
@@ -53,6 +56,11 @@ struct RecordSheet: View {
                 Section {
                     DatePicker("Date", selection: $date, displayedComponents: .date)
                     Toggle("Attach location", isOn: $isLocationOn)
+                    if isLocationOn && resolvedCoordinate == nil {
+                        Text("Locating…")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
             .navigationTitle("New Entry")
@@ -71,6 +79,26 @@ struct RecordSheet: View {
                     selectedTrack = track
                 }
             }
+            .onAppear {
+                if isLocationOn {
+                    fetchLocation()
+                }
+            }
+            .onChange(of: isLocationOn) { _, newValue in
+                if newValue, resolvedCoordinate == nil {
+                    fetchLocation()
+                }
+            }
+        }
+    }
+
+    private func fetchLocation() {
+        locationManager.requestLocation { coordinate in
+            guard let coordinate else { return }
+            resolvedCoordinate = coordinate
+            Task {
+                resolvedPlaceName = await locationManager.reverseGeocode(coordinate)
+            }
         }
     }
 
@@ -86,9 +114,9 @@ struct RecordSheet: View {
             artworkURL: selectedTrack.artworkUrl100,
             previewURL: selectedTrack.previewUrl,
             appleMusicURL: selectedTrack.trackViewUrl,
-            latitude: isLocationOn ? Self.placeholderLatitude : nil,
-            longitude: isLocationOn ? Self.placeholderLongitude : nil,
-            placeName: isLocationOn ? "Seoul" : nil
+            latitude: isLocationOn ? resolvedCoordinate?.latitude : nil,
+            longitude: isLocationOn ? resolvedCoordinate?.longitude : nil,
+            placeName: isLocationOn ? resolvedPlaceName : nil
         )
         modelContext.insert(entry)
         dismiss()
