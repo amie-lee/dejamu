@@ -41,6 +41,7 @@ struct HomeBottomSheetView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 
