@@ -12,8 +12,8 @@ struct RecordSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
 
-    @State private var title = ""
-    @State private var artist = ""
+    @State private var selectedTrack: ITunesTrack?
+    @State private var isPresentingSongSearch = false
     @State private var note = ""
     @State private var date = Date.now
     @State private var isLocationOn = true
@@ -26,8 +26,16 @@ struct RecordSheet: View {
         NavigationStack {
             Form {
                 Section("Song") {
-                    TextField("Title", text: $title)
-                    TextField("Artist", text: $artist)
+                    Button {
+                        isPresentingSongSearch = true
+                    } label: {
+                        if let selectedTrack {
+                            SelectedSongRow(track: selectedTrack)
+                        } else {
+                            Text("Choose a song")
+                        }
+                    }
+                    .buttonStyle(.plain)
                 }
 
                 Section("Note") {
@@ -55,26 +63,60 @@ struct RecordSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save", action: save)
-                        .disabled(title.isEmpty || artist.isEmpty)
+                        .disabled(selectedTrack == nil)
+                }
+            }
+            .sheet(isPresented: $isPresentingSongSearch) {
+                SongSearchView { track in
+                    selectedTrack = track
                 }
             }
         }
     }
 
     private func save() {
+        guard let selectedTrack else { return }
+
         let entry = Entry(
             date: date,
             note: note,
-            trackId: 0,
-            title: title,
-            artist: artist,
-            artworkURL: "",
+            trackId: selectedTrack.trackId,
+            title: selectedTrack.trackName,
+            artist: selectedTrack.artistName,
+            artworkURL: selectedTrack.artworkUrl100,
+            previewURL: selectedTrack.previewUrl,
+            appleMusicURL: selectedTrack.trackViewUrl,
             latitude: isLocationOn ? Self.placeholderLatitude : nil,
             longitude: isLocationOn ? Self.placeholderLongitude : nil,
             placeName: isLocationOn ? "Seoul" : nil
         )
         modelContext.insert(entry)
         dismiss()
+    }
+}
+
+private struct SelectedSongRow: View {
+    let track: ITunesTrack
+
+    var body: some View {
+        HStack(spacing: 12) {
+            AsyncImage(url: URL(string: track.artworkUrl100)) { image in
+                image.resizable()
+            } placeholder: {
+                Color.secondary.opacity(0.2)
+            }
+            .frame(width: 40, height: 40)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+
+            VStack(alignment: .leading) {
+                Text(track.trackName).lineLimit(1)
+                Text(track.artistName)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+        }
+        .foregroundStyle(.primary)
     }
 }
 
