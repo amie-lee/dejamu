@@ -12,6 +12,7 @@ import SwiftUI
 struct HomeMapView: View {
     @Query private var entries: [Entry]
     @State private var position: MapCameraPosition = .automatic
+    @State private var isPresentingRecordSheet = false
 
     var body: some View {
         Map(position: $position) {
@@ -20,6 +21,22 @@ struct HomeMapView: View {
                     EntryPinView(entry: pinned.entry)
                 }
             }
+        }
+        .overlay(alignment: .bottomTrailing) {
+            Button {
+                isPresentingRecordSheet = true
+            } label: {
+                Image(systemName: "plus")
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 56, height: 56)
+                    .background(.tint, in: Circle())
+                    .shadow(radius: 4)
+            }
+            .padding()
+        }
+        .sheet(isPresented: $isPresentingRecordSheet) {
+            RecordSheet()
         }
     }
 
