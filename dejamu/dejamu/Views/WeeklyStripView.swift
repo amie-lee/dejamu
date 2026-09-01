@@ -41,7 +41,7 @@ struct WeeklyStripView: View {
             .buttonStyle(.bordered)
         }
         .padding(.horizontal)
-        .padding(.top, 8)
+        .padding(.top, 20)
     }
 
     private func entry(on day: Date) -> Entry? {
