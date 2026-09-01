@@ -39,19 +39,6 @@ struct HomeMapView: View {
                 }
                 .padding()
             }
-            .overlay(alignment: .bottomTrailing) {
-                Button {
-                    isPresentingRecordSheet = true
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.title2.weight(.semibold))
-                        .foregroundStyle(.white)
-                        .frame(width: 56, height: 56)
-                        .background(.tint, in: Circle())
-                        .shadow(radius: 4)
-                }
-                .padding()
-            }
             .sheet(isPresented: $isPresentingRecordSheet) {
                 RecordSheet()
             }
