@@ -18,55 +18,60 @@ struct HomeMapView: View {
     @State private var locationManager = LocationManager()
 
     var body: some View {
-        Map(position: $position) {
-            ForEach(pinnedEntries, id: \.entry.id) { pinned in
-                Annotation(pinned.entry.title, coordinate: pinned.coordinate) {
-                    EntryPinView(entry: pinned.entry)
-                        .onTapGesture {
-                            selectedEntry = pinned.entry
-                        }
+        ZStack {
+            Map(position: $position) {
+                ForEach(pinnedEntries, id: \.entry.id) { pinned in
+                    Annotation(pinned.entry.title, coordinate: pinned.coordinate) {
+                        EntryPinView(entry: pinned.entry)
+                            .onTapGesture {
+                                selectedEntry = pinned.entry
+                            }
+                    }
                 }
             }
-        }
-        .overlay(alignment: .topTrailing) {
-            Button(action: centerOnCurrentLocation) {
-                Image(systemName: "location.fill")
-                    .font(.body.weight(.semibold))
-                    .frame(width: 40, height: 40)
-                    .background(.regularMaterial, in: Circle())
-                    .shadow(radius: 2)
+            .overlay(alignment: .topTrailing) {
+                Button(action: centerOnCurrentLocation) {
+                    Image(systemName: "location.fill")
+                        .font(.body.weight(.semibold))
+                        .frame(width: 40, height: 40)
+                        .background(.regularMaterial, in: Circle())
+                        .shadow(radius: 2)
+                }
+                .padding()
             }
-            .padding()
-        }
-        .overlay(alignment: .bottomTrailing) {
-            Button {
-                isPresentingRecordSheet = true
-            } label: {
-                Image(systemName: "plus")
-                    .font(.title2.weight(.semibold))
-                    .foregroundStyle(.white)
-                    .frame(width: 56, height: 56)
-                    .background(.tint, in: Circle())
-                    .shadow(radius: 4)
+            .overlay(alignment: .bottomTrailing) {
+                Button {
+                    isPresentingRecordSheet = true
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.title2.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 56, height: 56)
+                        .background(.tint, in: Circle())
+                        .shadow(radius: 4)
+                }
+                .padding()
             }
-            .padding()
-        }
-        .sheet(isPresented: .constant(true)) {
-            HomeBottomSheetView(
-                selectedDetent: selectedDetent,
-                onSelectEntry: { selectedEntry = $0 },
-                onAddEntry: { isPresentingRecordSheet = true }
-            )
-            .presentationDetents([.height(180), .medium, .large], selection: $selectedDetent)
-            .presentationDragIndicator(.visible)
-            .presentationBackgroundInteraction(.enabled)
-            .interactiveDismissDisabled()
-        }
-        .sheet(isPresented: $isPresentingRecordSheet) {
-            RecordSheet()
-        }
-        .sheet(item: $selectedEntry) { entry in
-            EntryDetailView(entry: entry)
+            .sheet(isPresented: $isPresentingRecordSheet) {
+                RecordSheet()
+            }
+            .sheet(item: $selectedEntry) { entry in
+                EntryDetailView(entry: entry)
+            }
+
+            Color.clear
+                .allowsHitTesting(false)
+                .sheet(isPresented: .constant(true)) {
+                    HomeBottomSheetView(
+                        selectedDetent: selectedDetent,
+                        onSelectEntry: { selectedEntry = $0 },
+                        onAddEntry: { isPresentingRecordSheet = true }
+                    )
+                    .presentationDetents([.height(180), .medium, .large], selection: $selectedDetent)
+                    .presentationDragIndicator(.visible)
+                    .presentationBackgroundInteraction(.enabled)
+                    .interactiveDismissDisabled()
+                }
         }
     }
 
