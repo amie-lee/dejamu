@@ -31,7 +31,9 @@ struct HomeBottomSheetView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .padding()
+                .padding(.horizontal)
+                .padding(.top, 20)
+                .padding(.bottom)
 
                 switch mode {
                 case .list:
