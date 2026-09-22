@@ -5,6 +5,7 @@
 //  Created by Seoyoung Lee on 8/18/26.
 //
 
+import Foundation
 import Observation
 import RevenueCat
 
