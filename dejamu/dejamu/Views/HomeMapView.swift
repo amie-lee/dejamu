@@ -12,10 +12,12 @@ import SwiftUI
 struct HomeMapView: View {
     @Environment(PurchaseManager.self) private var purchaseManager
     @Query private var entries: [Entry]
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var position: MapCameraPosition = .automatic
     @State private var isPresentingRecordSheet = false
     @State private var isPresentingPaywall = false
     @State private var isPresentingSettings = false
+    @State private var isPresentingOnboarding = false
     @State private var selectedEntry: Entry?
     @State private var selectedDetent: PresentationDetent = .height(180)
     @State private var locationManager = LocationManager()
@@ -92,6 +94,17 @@ struct HomeMapView: View {
                     .presentationBackgroundInteraction(.enabled)
                     .interactiveDismissDisabled()
                 }
+        }
+        .onAppear {
+            if !hasCompletedOnboarding {
+                isPresentingOnboarding = true
+            }
+        }
+        .fullScreenCover(isPresented: $isPresentingOnboarding) {
+            OnboardingView {
+                hasCompletedOnboarding = true
+                isPresentingOnboarding = false
+            }
         }
     }
 
