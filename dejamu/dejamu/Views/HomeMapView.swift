@@ -15,6 +15,7 @@ struct HomeMapView: View {
     @State private var position: MapCameraPosition = .automatic
     @State private var isPresentingRecordSheet = false
     @State private var isPresentingPaywall = false
+    @State private var isPresentingSettings = false
     @State private var selectedEntry: Entry?
     @State private var selectedDetent: PresentationDetent = .height(180)
     @State private var locationManager = LocationManager()
@@ -58,6 +59,25 @@ struct HomeMapView: View {
                     PaywallView()
                 }
             }
+
+            VStack {
+                HStack {
+                    Button(action: { isPresentingSettings = true }) {
+                        Image(systemName: "gearshape.fill")
+                            .font(.body.weight(.semibold))
+                            .frame(width: 40, height: 40)
+                            .background(.regularMaterial, in: Circle())
+                            .shadow(radius: 2)
+                    }
+                    .sheet(isPresented: $isPresentingSettings) {
+                        SettingsView()
+                    }
+
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding()
 
             Color.clear
                 .allowsHitTesting(false)
