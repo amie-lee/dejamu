@@ -92,7 +92,7 @@ Pro  : full map view, calendar grid, share card themes, widget, recall notificat
 
 The principle is **"writing is free, looking back is paid."** Never cap the number of entries.
 
-RevenueCat: one entitlement `pro`, one offering `default`, three products (monthly, yearly, lifetime).
+RevenueCat: one entitlement `dejamu_pro`, one offering `default`, three products (monthly, yearly, lifetime).
 
 ## Project settings
 

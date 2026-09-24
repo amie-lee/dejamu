@@ -32,6 +32,6 @@ final class PurchaseManager: NSObject, PurchasesDelegate {
     }
 
     private func updateProStatus(from customerInfo: CustomerInfo) {
-        isPro = customerInfo.entitlements["pro"]?.isActive == true
+        isPro = customerInfo.entitlements["dejamu_pro"]?.isActive == true
     }
 }
