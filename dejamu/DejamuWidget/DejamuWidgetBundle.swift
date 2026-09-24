@@ -12,7 +12,5 @@ import SwiftUI
 struct DejamuWidgetBundle: WidgetBundle {
     var body: some Widget {
         DejamuWidget()
-        DejamuWidgetControl()
-        DejamuWidgetLiveActivity()
     }
 }
