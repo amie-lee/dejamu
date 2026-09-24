@@ -11,6 +11,7 @@ import SwiftUI
 @main
 struct dejamuApp: App {
     private let container: ModelContainer
+    @State private var purchaseManager = PurchaseManager()
 
     init() {
         container = try! ModelContainer(for: Entry.self)
@@ -22,6 +23,7 @@ struct dejamuApp: App {
             HomeMapView()
         }
         .modelContainer(container)
+        .environment(purchaseManager)
     }
 
     private static func seedDummyEntriesIfNeeded(in container: ModelContainer) {

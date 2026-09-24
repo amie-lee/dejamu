@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A361856A306305D000FEB23F /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = A3618569306305D000FEB23F /* RevenueCat */; };
+		A361856C306305D000FEB23F /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = A361856B306305D000FEB23F /* RevenueCatUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A38C588E3034863100635782 /* dejamu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dejamu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -13,8 +18,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A38C58903034863100635782 /* dejamu */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = dejamu;
 			sourceTree = "<group>";
 		};
@@ -25,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A361856C306305D000FEB23F /* RevenueCatUI in Frameworks */,
+				A361856A306305D000FEB23F /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +99,9 @@
 			);
 			mainGroup = A38C58853034863100635782;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A3618568306305D000FEB23F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A38C588F3034863100635782 /* Products */;
 			projectDirPath = "";
@@ -336,6 +344,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A3618568306305D000FEB23F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.90.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A3618569306305D000FEB23F /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A3618568306305D000FEB23F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		A361856B306305D000FEB23F /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A3618568306305D000FEB23F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A38C58863034863100635782 /* Project object */;
 }

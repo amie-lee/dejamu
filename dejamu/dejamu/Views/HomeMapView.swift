@@ -10,9 +10,11 @@ import SwiftData
 import SwiftUI
 
 struct HomeMapView: View {
+    @Environment(PurchaseManager.self) private var purchaseManager
     @Query private var entries: [Entry]
     @State private var position: MapCameraPosition = .automatic
     @State private var isPresentingRecordSheet = false
+    @State private var isPresentingPaywall = false
     @State private var selectedEntry: Entry?
     @State private var selectedDetent: PresentationDetent = .height(180)
     @State private var locationManager = LocationManager()
@@ -44,6 +46,17 @@ struct HomeMapView: View {
             }
             .sheet(item: $selectedEntry) { entry in
                 EntryDetailView(entry: entry)
+            }
+            .blur(radius: purchaseManager.isPro ? 0 : 20)
+            .allowsHitTesting(purchaseManager.isPro)
+
+            if !purchaseManager.isPro {
+                MapLockOverlay {
+                    isPresentingPaywall = true
+                }
+                .sheet(isPresented: $isPresentingPaywall) {
+                    PaywallView()
+                }
             }
 
             Color.clear
@@ -81,6 +94,25 @@ struct HomeMapView: View {
                 )
             }
         }
+    }
+}
+
+private struct MapLockOverlay: View {
+    let onUnlock: () -> Void
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "lock.fill")
+                .font(.largeTitle)
+            Text("Unlock the map view with Dejamu Pro")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+            Button("Unlock", action: onUnlock)
+                .buttonStyle(.borderedProminent)
+        }
+        .padding(24)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal, 32)
     }
 }
 

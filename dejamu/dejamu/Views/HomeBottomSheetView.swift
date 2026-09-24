@@ -13,7 +13,9 @@ struct HomeBottomSheetView: View {
     let onSelectEntry: (Entry) -> Void
     let onAddEntry: () -> Void
 
+    @Environment(PurchaseManager.self) private var purchaseManager
     @State private var mode: Mode = .list
+    @State private var isPresentingPaywall = false
 
     private enum Mode: String, CaseIterable {
         case list = "List"
@@ -25,7 +27,7 @@ struct HomeBottomSheetView: View {
             if selectedDetent == .height(180) {
                 WeeklyStripView(onSelectEntry: onSelectEntry, onAddEntry: onAddEntry)
             } else {
-                Picker("View", selection: $mode) {
+                Picker("View", selection: modeSelection) {
                     ForEach(Mode.allCases, id: \.self) { mode in
                         Text(mode.rawValue).tag(mode)
                     }
@@ -44,6 +46,22 @@ struct HomeBottomSheetView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .sheet(isPresented: $isPresentingPaywall) {
+            PaywallView()
+        }
+    }
+
+    private var modeSelection: Binding<Mode> {
+        Binding(
+            get: { mode },
+            set: { newValue in
+                if newValue == .calendar && !purchaseManager.isPro {
+                    isPresentingPaywall = true
+                } else {
+                    mode = newValue
+                }
+            }
+        )
     }
 }
 
