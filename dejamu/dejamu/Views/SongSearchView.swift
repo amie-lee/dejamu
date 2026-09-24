@@ -13,23 +13,30 @@ struct SongSearchView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var query = ""
     @State private var results: [ITunesTrack] = []
+    @State private var hasSearched = false
     @State private var audioPlayer = AudioPlayer()
 
     var body: some View {
         NavigationStack {
-            List(results) { track in
-                SongResultRow(
-                    track: track,
-                    isPlaying: audioPlayer.playingTrackId == track.trackId,
-                    onSelect: {
-                        onSelect(track)
-                        dismiss()
-                    },
-                    onTogglePlay: {
-                        guard let previewUrl = track.previewUrl, let url = URL(string: previewUrl) else { return }
-                        audioPlayer.toggle(trackId: track.trackId, url: url)
+            Group {
+                if results.isEmpty && hasSearched {
+                    ContentUnavailableView.search(text: query)
+                } else {
+                    List(results) { track in
+                        SongResultRow(
+                            track: track,
+                            isPlaying: audioPlayer.playingTrackId == track.trackId,
+                            onSelect: {
+                                onSelect(track)
+                                dismiss()
+                            },
+                            onTogglePlay: {
+                                guard let previewUrl = track.previewUrl, let url = URL(string: previewUrl) else { return }
+                                audioPlayer.toggle(trackId: track.trackId, url: url)
+                            }
+                        )
                     }
-                )
+                }
             }
             .navigationTitle("Search")
             .navigationBarTitleDisplayMode(.inline)
@@ -52,6 +59,7 @@ struct SongSearchView: View {
         let term = query.trimmingCharacters(in: .whitespaces)
         guard !term.isEmpty else {
             results = []
+            hasSearched = false
             return
         }
 
@@ -59,6 +67,7 @@ struct SongSearchView: View {
         guard !Task.isCancelled else { return }
 
         results = (try? await ITunesAPI.search(term: term)) ?? []
+        hasSearched = true
     }
 }
 
