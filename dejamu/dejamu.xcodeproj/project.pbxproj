@@ -9,21 +9,89 @@
 /* Begin PBXBuildFile section */
 		A361856A306305D000FEB23F /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = A3618569306305D000FEB23F /* RevenueCat */; };
 		A361856C306305D000FEB23F /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = A361856B306305D000FEB23F /* RevenueCatUI */; };
+		A377E48D306577C400124A4B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A377E48C306577C300124A4B /* WidgetKit.framework */; };
+		A377E48F306577C400124A4B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A377E48E306577C400124A4B /* SwiftUI.framework */; };
+		A377E4A0306577C500124A4B /* DejamuWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A377E48A306577C300124A4B /* DejamuWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A377E49E306577C500124A4B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A38C58863034863100635782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A377E489306577C300124A4B;
+			remoteInfo = DejamuWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A377E4A5306577C500124A4B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A377E4A0306577C500124A4B /* DejamuWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		A377E48A306577C300124A4B /* DejamuWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DejamuWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A377E48C306577C300124A4B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A377E48E306577C400124A4B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A377E4A73065789600124A4B /* DejamuWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DejamuWidgetExtension.entitlements; sourceTree = "<group>"; };
 		A38C588E3034863100635782 /* dejamu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dejamu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A377E4A1306577C500124A4B /* Exceptions for "DejamuWidget" folder in "DejamuWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A377E489306577C300124A4B /* DejamuWidgetExtension */;
+		};
+		A377E4A9306579D200124A4B /* Exceptions for "dejamu" folder in "DejamuWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/Entry.swift,
+			);
+			target = A377E489306577C300124A4B /* DejamuWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		A377E490306577C400124A4B /* DejamuWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A377E4A1306577C500124A4B /* Exceptions for "DejamuWidget" folder in "DejamuWidgetExtension" target */,
+			);
+			path = DejamuWidget;
+			sourceTree = "<group>";
+		};
 		A38C58903034863100635782 /* dejamu */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A377E4A9306579D200124A4B /* Exceptions for "dejamu" folder in "DejamuWidgetExtension" target */,
+			);
 			path = dejamu;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A377E487306577C300124A4B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A377E48F306577C400124A4B /* SwiftUI.framework in Frameworks */,
+				A377E48D306577C400124A4B /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A38C588B3034863100635782 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -36,10 +104,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A377E48B306577C300124A4B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A377E48C306577C300124A4B /* WidgetKit.framework */,
+				A377E48E306577C400124A4B /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A38C58853034863100635782 = {
 			isa = PBXGroup;
 			children = (
+				A377E4A73065789600124A4B /* DejamuWidgetExtension.entitlements */,
 				A38C58903034863100635782 /* dejamu */,
+				A377E490306577C400124A4B /* DejamuWidget */,
+				A377E48B306577C300124A4B /* Frameworks */,
 				A38C588F3034863100635782 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				A38C588E3034863100635782 /* dejamu.app */,
+				A377E48A306577C300124A4B /* DejamuWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,6 +136,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A377E489306577C300124A4B /* DejamuWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A377E4A2306577C500124A4B /* Build configuration list for PBXNativeTarget "DejamuWidgetExtension" */;
+			buildPhases = (
+				A377E486306577C300124A4B /* Sources */,
+				A377E487306577C300124A4B /* Frameworks */,
+				A377E488306577C300124A4B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A377E490306577C400124A4B /* DejamuWidget */,
+			);
+			name = DejamuWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = DejamuWidgetExtension;
+			productReference = A377E48A306577C300124A4B /* DejamuWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		A38C588D3034863100635782 /* dejamu */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A38C58993034863200635782 /* Build configuration list for PBXNativeTarget "dejamu" */;
@@ -62,10 +165,12 @@
 				A38C588A3034863100635782 /* Sources */,
 				A38C588B3034863100635782 /* Frameworks */,
 				A38C588C3034863100635782 /* Resources */,
+				A377E4A5306577C500124A4B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A377E49F306577C500124A4B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A38C58903034863100635782 /* dejamu */,
@@ -85,6 +190,9 @@
 				LastSwiftUpdateCheck = 2650;
 				LastUpgradeCheck = 2650;
 				TargetAttributes = {
+					A377E489306577C300124A4B = {
+						CreatedOnToolsVersion = 26.5;
+					};
 					A38C588D3034863100635782 = {
 						CreatedOnToolsVersion = 26.5;
 					};
@@ -108,11 +216,19 @@
 			projectRoot = "";
 			targets = (
 				A38C588D3034863100635782 /* dejamu */,
+				A377E489306577C300124A4B /* DejamuWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A377E488306577C300124A4B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A38C588C3034863100635782 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -123,6 +239,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A377E486306577C300124A4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A38C588A3034863100635782 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,7 +255,79 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A377E49F306577C500124A4B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A377E489306577C300124A4B /* DejamuWidgetExtension */;
+			targetProxy = A377E49E306577C500124A4B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		A377E4A3306577C500124A4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DejamuWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B4FWK4699L;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DejamuWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DejamuWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sy.dejamu.DejamuWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A377E4A4306577C500124A4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DejamuWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B4FWK4699L;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DejamuWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DejamuWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sy.dejamu.DejamuWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		A38C58973034863200635782 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -259,6 +454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = dejamu/dejamu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B4FWK4699L;
@@ -293,6 +489,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = dejamu/dejamu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B4FWK4699L;
@@ -325,6 +522,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A377E4A2306577C500124A4B /* Build configuration list for PBXNativeTarget "DejamuWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A377E4A3306577C500124A4B /* Debug */,
+				A377E4A4306577C500124A4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A38C58893034863100635782 /* Build configuration list for PBXProject "dejamu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
