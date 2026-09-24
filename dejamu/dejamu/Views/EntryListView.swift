@@ -14,15 +14,23 @@ struct EntryListView: View {
     @Query(sort: \Entry.date, order: .reverse) private var entries: [Entry]
 
     var body: some View {
-        List(entries) { entry in
-            Button {
-                onSelectEntry(entry)
-            } label: {
-                EntryRow(entry: entry)
+        if entries.isEmpty {
+            ContentUnavailableView(
+                "No Entries Yet",
+                systemImage: "music.note.list",
+                description: Text("Tap \"Today's song\" to pin your first memory.")
+            )
+        } else {
+            List(entries) { entry in
+                Button {
+                    onSelectEntry(entry)
+                } label: {
+                    EntryRow(entry: entry)
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
+            .listStyle(.plain)
         }
-        .listStyle(.plain)
     }
 }
 
