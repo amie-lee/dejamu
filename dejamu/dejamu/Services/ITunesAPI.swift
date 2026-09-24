@@ -31,7 +31,6 @@ enum ITunesAPI {
             URLQueryItem(name: "term", value: term),
             URLQueryItem(name: "entity", value: "song"),
             URLQueryItem(name: "limit", value: "25"),
-            URLQueryItem(name: "country", value: "KR"),
         ]
 
         let (data, _) = try await URLSession.shared.data(from: components.url!)
