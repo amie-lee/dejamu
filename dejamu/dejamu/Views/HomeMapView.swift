@@ -54,6 +54,9 @@ struct HomeMapView: View {
                 MapLockOverlay {
                     isPresentingPaywall = true
                 }
+                .sheet(isPresented: $isPresentingPaywall) {
+                    PaywallView()
+                }
             }
 
             Color.clear
@@ -69,9 +72,6 @@ struct HomeMapView: View {
                     .presentationBackgroundInteraction(.enabled)
                     .interactiveDismissDisabled()
                 }
-        }
-        .sheet(isPresented: $isPresentingPaywall) {
-            PaywallView()
         }
     }
 
