@@ -16,7 +16,7 @@ struct dejamuApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     init() {
-        container = try! ModelContainer(for: Entry.self)
+        container = Entry.makeSharedModelContainer()
         Self.seedDummyEntriesIfNeeded(in: container)
     }
 

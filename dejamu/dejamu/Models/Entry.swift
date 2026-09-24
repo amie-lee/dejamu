@@ -65,4 +65,17 @@ extension Entry {
     var largeArtworkURL: String {
         artworkURL.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg")
     }
+
+    /// The app and the widget extension both need to read and write the same
+    /// store, so this lives on the shared model type rather than in either target.
+    static func makeSharedModelContainer() -> ModelContainer {
+        let appGroupID = "group.com.sy.dejamu"
+        guard let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {
+            return try! ModelContainer(for: Entry.self)
+        }
+
+        let storeURL = groupURL.appendingPathComponent("Dejamu.sqlite")
+        let configuration = ModelConfiguration(url: storeURL)
+        return try! ModelContainer(for: Entry.self, configurations: configuration)
+    }
 }
