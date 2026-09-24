@@ -12,6 +12,7 @@ import SwiftUI
 struct dejamuApp: App {
     private let container: ModelContainer
     @State private var purchaseManager = PurchaseManager()
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     init() {
         container = try! ModelContainer(for: Entry.self)
@@ -20,7 +21,13 @@ struct dejamuApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeMapView()
+            if hasCompletedOnboarding {
+                HomeMapView()
+            } else {
+                OnboardingView {
+                    hasCompletedOnboarding = true
+                }
+            }
         }
         .modelContainer(container)
         .environment(purchaseManager)
