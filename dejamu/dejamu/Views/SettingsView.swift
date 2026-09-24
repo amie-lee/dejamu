@@ -14,10 +14,13 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Environment(PurchaseManager.self) private var purchaseManager
+    @Environment(RecallNotificationManager.self) private var recallNotificationManager
+    @Query private var entries: [Entry]
 
     @State private var locationManager = LocationManager()
     @State private var isPresentingPaywall = false
     @State private var isShowingResetConfirmation = false
+    @AppStorage("isRecallNotificationsEnabled") private var isRecallNotificationsEnabled = false
 
     var body: some View {
         NavigationStack {
@@ -47,6 +50,14 @@ struct SettingsView: View {
                         Button("Upgrade to Pro") {
                             isPresentingPaywall = true
                         }
+                    }
+                }
+
+                if purchaseManager.isPro {
+                    Section {
+                        Toggle("Recall Notifications", isOn: recallToggleBinding)
+                    } footer: {
+                        Text("Get notified when you're near a place you've pinned before. Works while Dejamu is running or in the background — not if you've force-quit it.")
                     }
                 }
 
@@ -81,7 +92,33 @@ struct SettingsView: View {
                     resetAllData()
                 }
             }
+            .onAppear {
+                if isRecallNotificationsEnabled {
+                    recallNotificationManager.updateGeofences(for: entries)
+                }
+            }
         }
+    }
+
+    private var recallToggleBinding: Binding<Bool> {
+        Binding(
+            get: { isRecallNotificationsEnabled },
+            set: { newValue in
+                isRecallNotificationsEnabled = newValue
+                if newValue {
+                    Task {
+                        let granted = await recallNotificationManager.requestAuthorization()
+                        if granted {
+                            recallNotificationManager.updateGeofences(for: entries)
+                        } else {
+                            isRecallNotificationsEnabled = false
+                        }
+                    }
+                } else {
+                    recallNotificationManager.updateGeofences(for: [])
+                }
+            }
+        )
     }
 
     private var locationStatusDescription: String {
