@@ -17,7 +17,7 @@ struct dejamuApp: App {
 
     init() {
         container = Entry.makeSharedModelContainer()
-        Self.seedDummyEntriesIfNeeded(in: container)
+        Self.removeDummyEntriesIfPresent(in: container)
     }
 
     var body: some Scene {
@@ -35,43 +35,13 @@ struct dejamuApp: App {
         .environment(recallNotificationManager)
     }
 
-    private static func seedDummyEntriesIfNeeded(in container: ModelContainer) {
+    /// The old dummy-data seed used trackId 1/2/3, which real iTunes tracks never have --
+    /// safe to target directly so installs that already seeded these get cleaned up too.
+    private static func removeDummyEntriesIfPresent(in container: ModelContainer) {
         let context = container.mainContext
-        guard let count = try? context.fetchCount(FetchDescriptor<Entry>()), count == 0 else { return }
-
-        let dummyEntries = [
-            Entry(
-                note: "Walked past a busker playing this on loop.",
-                trackId: 1,
-                title: "Dynamite",
-                artist: "BTS",
-                artworkURL: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/dynamite/100x100bb.jpg",
-                latitude: 37.5563,
-                longitude: 126.9236,
-                placeName: "Hongdae"
-            ),
-            Entry(
-                note: "Coffee, rain, and this song on repeat.",
-                trackId: 2,
-                title: "Through the Night",
-                artist: "IU",
-                artworkURL: "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/through-the-night/100x100bb.jpg",
-                latitude: 37.5446,
-                longitude: 127.0557,
-                placeName: "Seongsu-dong"
-            ),
-            Entry(
-                note: "Sunset by the river, headphones in.",
-                trackId: 3,
-                title: "Blueming",
-                artist: "IU",
-                artworkURL: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/blueming/100x100bb.jpg",
-                latitude: 37.5133,
-                longitude: 127.0019,
-                placeName: "Banpo Hangang Park"
-            ),
-        ]
-
-        dummyEntries.forEach { context.insert($0) }
+        let dummyTrackIds = [1, 2, 3]
+        let predicate = #Predicate<Entry> { dummyTrackIds.contains($0.trackId) }
+        guard let dummyEntries = try? context.fetch(FetchDescriptor<Entry>(predicate: predicate)) else { return }
+        dummyEntries.forEach { context.delete($0) }
     }
 }

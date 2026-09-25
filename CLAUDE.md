@@ -86,11 +86,13 @@ final class Entry {
 ## Free vs Pro
 
 ```
-Free : unlimited entries, list view, basic share card
+Free : unlimited entries, list view, basic share card, map view for the first 3 entries
 Pro  : full map view, calendar grid, share card themes, widget, recall notifications
 ```
 
 The principle is **"writing is free, looking back is paid."** Never cap the number of entries.
+The map view itself stays free until an account has 3 entries, so a new user sees their
+pins land on the map at least once before the paywall kicks in.
 
 RevenueCat: one entitlement `dejamu_pro`, one offering `default`, three products (monthly, yearly, lifetime).
 
