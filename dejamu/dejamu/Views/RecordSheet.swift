@@ -12,6 +12,8 @@ import SwiftUI
 struct RecordSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(RecallNotificationManager.self) private var recallNotificationManager
+    @AppStorage("isRecallNotificationsEnabled") private var isRecallNotificationsEnabled = false
 
     @State private var selectedTrack: ITunesTrack?
     @State private var isPresentingSongSearch = false
@@ -119,6 +121,12 @@ struct RecordSheet: View {
             placeName: isLocationOn ? resolvedPlaceName : nil
         )
         modelContext.insert(entry)
+
+        if isRecallNotificationsEnabled {
+            let allEntries = (try? modelContext.fetch(FetchDescriptor<Entry>())) ?? []
+            recallNotificationManager.updateGeofences(for: allEntries)
+        }
+
         dismiss()
     }
 }

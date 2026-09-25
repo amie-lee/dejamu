@@ -42,9 +42,6 @@ struct HomeMapView: View {
                 }
                 .padding()
             }
-            .sheet(isPresented: $isPresentingRecordSheet) {
-                RecordSheet()
-            }
             .sheet(item: $selectedEntry) { entry in
                 EntryDetailView(entry: entry)
             }
@@ -91,6 +88,9 @@ struct HomeMapView: View {
                     .presentationDragIndicator(.visible)
                     .presentationBackgroundInteraction(.enabled)
                     .interactiveDismissDisabled()
+                    .sheet(isPresented: $isPresentingRecordSheet) {
+                        RecordSheet()
+                    }
                 }
         }
     }

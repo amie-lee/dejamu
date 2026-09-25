@@ -12,10 +12,11 @@ import SwiftUI
 struct dejamuApp: App {
     private let container: ModelContainer
     @State private var purchaseManager = PurchaseManager()
+    @State private var recallNotificationManager = RecallNotificationManager()
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     init() {
-        container = try! ModelContainer(for: Entry.self)
+        container = Entry.makeSharedModelContainer()
         Self.seedDummyEntriesIfNeeded(in: container)
     }
 
@@ -31,6 +32,7 @@ struct dejamuApp: App {
         }
         .modelContainer(container)
         .environment(purchaseManager)
+        .environment(recallNotificationManager)
     }
 
     private static func seedDummyEntriesIfNeeded(in container: ModelContainer) {
