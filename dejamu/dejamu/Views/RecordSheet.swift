@@ -34,11 +34,15 @@ struct RecordSheet: View {
                     Button {
                         isPresentingSongSearch = true
                     } label: {
-                        if let selectedTrack {
-                            SelectedSongRow(track: selectedTrack)
-                        } else {
-                            Text("Choose a song")
+                        Group {
+                            if let selectedTrack {
+                                SelectedSongRow(track: selectedTrack)
+                            } else {
+                                Text("Choose a song")
+                            }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                 }
