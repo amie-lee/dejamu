@@ -10,6 +10,8 @@ import SwiftData
 import SwiftUI
 
 struct HomeMapView: View {
+    private static let freeEntryLimit = 3
+
     @Environment(PurchaseManager.self) private var purchaseManager
     @Query private var entries: [Entry]
     @State private var position: MapCameraPosition = .automatic
@@ -23,6 +25,8 @@ struct HomeMapView: View {
     var body: some View {
         ZStack {
             Map(position: $position) {
+                UserAnnotation()
+
                 ForEach(pinnedEntries, id: \.entry.id) { pinned in
                     Annotation(pinned.entry.title, coordinate: pinned.coordinate) {
                         EntryPinView(entry: pinned.entry)
@@ -45,10 +49,10 @@ struct HomeMapView: View {
             .sheet(item: $selectedEntry) { entry in
                 EntryDetailView(entry: entry)
             }
-            .blur(radius: purchaseManager.isPro ? 0 : 20)
-            .allowsHitTesting(purchaseManager.isPro)
+            .blur(radius: isMapLocked ? 20 : 0)
+            .allowsHitTesting(!isMapLocked)
 
-            if !purchaseManager.isPro {
+            if isMapLocked {
                 MapLockOverlay {
                     isPresentingPaywall = true
                 }
@@ -93,6 +97,10 @@ struct HomeMapView: View {
                     }
                 }
         }
+    }
+
+    private var isMapLocked: Bool {
+        !purchaseManager.isPro && entries.count >= Self.freeEntryLimit
     }
 
     private var pinnedEntries: [(entry: Entry, coordinate: CLLocationCoordinate2D)] {
