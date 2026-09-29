@@ -13,35 +13,39 @@ struct AddressSearchView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var query = ""
-    @State private var isSearching = false
-    @State private var errorMessage: String?
+    @State private var results: [CLPlacemark] = []
+    @State private var hasSearched = false
 
     var body: some View {
         NavigationStack {
-            Form {
-                TextField("Address or place name", text: $query)
-                    .submitLabel(.search)
-                    .onSubmit(search)
-
-                if let errorMessage {
-                    Text(errorMessage)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+            Group {
+                if results.isEmpty && hasSearched {
+                    ContentUnavailableView.search(text: query)
+                } else {
+                    List(Array(results.enumerated()), id: \.offset) { _, placemark in
+                        Button {
+                            select(placemark)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(primaryName(for: placemark))
+                                if let secondary = secondaryLine(for: placemark) {
+                                    Text(secondary)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        .foregroundStyle(.primary)
+                    }
                 }
             }
             .navigationTitle("Search Address")
             .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $query, prompt: "Address or place name")
+            .onSubmit(of: .search, search)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    if isSearching {
-                        ProgressView()
-                    } else {
-                        Button("Search", action: search)
-                            .disabled(query.trimmingCharacters(in: .whitespaces).isEmpty)
-                    }
                 }
             }
         }
@@ -51,21 +55,28 @@ struct AddressSearchView: View {
         let term = query.trimmingCharacters(in: .whitespaces)
         guard !term.isEmpty else { return }
 
-        isSearching = true
-        errorMessage = nil
-
         Task {
-            let placemark = try? await CLGeocoder().geocodeAddressString(term).first
-            isSearching = false
-
-            guard let location = placemark?.location else {
-                errorMessage = "No matching address found."
-                return
-            }
-
-            onSelect(location.coordinate, placemark?.locality ?? placemark?.name)
-            dismiss()
+            results = (try? await CLGeocoder().geocodeAddressString(term)) ?? []
+            hasSearched = true
         }
+    }
+
+    private func select(_ placemark: CLPlacemark) {
+        guard let coordinate = placemark.location?.coordinate else { return }
+        onSelect(coordinate, primaryName(for: placemark))
+        dismiss()
+    }
+
+    private func primaryName(for placemark: CLPlacemark) -> String {
+        placemark.name ?? placemark.locality ?? query
+    }
+
+    private func secondaryLine(for placemark: CLPlacemark) -> String? {
+        let primary = primaryName(for: placemark)
+        let parts = [placemark.locality, placemark.administrativeArea, placemark.country]
+            .compactMap { $0 }
+            .filter { $0 != primary }
+        return parts.isEmpty ? nil : parts.joined(separator: ", ")
     }
 }
 
