@@ -14,6 +14,18 @@ struct OnboardingView: View {
     @State private var locationManager = LocationManager()
 
     var body: some View {
+        VStack(spacing: 0) {
+            Image("Wordmark")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 28)
+                .padding(.top, 20)
+
+            onboardingPages
+        }
+    }
+
+    private var onboardingPages: some View {
         TabView(selection: $page) {
             OnboardingPage(
                 systemImage: "mappin.and.ellipse",
