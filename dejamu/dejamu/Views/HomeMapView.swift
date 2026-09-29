@@ -83,8 +83,8 @@ struct HomeMapView: View {
             Image("Wordmark")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 20)
-                .padding(.top, 26)
+                .frame(height: 40)
+                .padding(.top, 16)
                 .frame(maxHeight: .infinity, alignment: .top)
 
             Color.clear
