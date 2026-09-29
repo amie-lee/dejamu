@@ -86,8 +86,9 @@ final class Entry {
 ## Free vs Pro
 
 ```
-Free : unlimited entries, list view, basic share card, map view for the first 3 entries
-Pro  : full map view, calendar grid, share card themes, widget, recall notifications
+Free : unlimited entries, list view, basic share card, map view for the first 3 entries,
+       home screen widget, recall notifications
+Pro  : full map view, calendar grid, share card themes
 ```
 
 The principle is **"writing is free, looking back is paid."** Never cap the number of entries.
