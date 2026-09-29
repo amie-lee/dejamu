@@ -1,6 +1,18 @@
-# Dejamu
+<p align="center">
+  <img src="dejamu/dejamu/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png" width="88" alt="Dejamu app icon">
+</p>
 
-> Fill your own map with music.
+<p align="center">
+  <img src="dejamu/dejamu/Assets.xcassets/Wordmark.imageset/Wordmark.png" width="320" alt="dejamu">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/iOS-17.0%2B-FF5AA8?style=flat-square&labelColor=2b2b2b" alt="iOS 17.0+">
+  <img src="https://img.shields.io/badge/SwiftUI-100%25-FF5AA8?style=flat-square&labelColor=2b2b2b" alt="SwiftUI">
+  <img src="https://img.shields.io/badge/backend-none-FF5AA8?style=flat-square&labelColor=2b2b2b" alt="No backend">
+</p>
+
+<p align="center"><b>Fill your own map with music.</b></p>
 
 An archive app that pins the music tied to a place onto your map.
 
