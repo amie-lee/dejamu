@@ -78,7 +78,7 @@ struct DejamuWidgetEntryView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } else {
-                Color.secondary.opacity(0.2)
+                pastelGradient
             }
 
             LinearGradient(colors: [.clear, .black.opacity(0.75)], startPoint: .center, endPoint: .bottom)
@@ -107,6 +107,18 @@ struct DejamuWidgetEntryView: View {
             }
             .padding(12)
         }
+    }
+
+    private var pastelGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color(red: 1.0, green: 0.70, blue: 0.85),
+                Color(red: 0.79, green: 0.71, blue: 1.0),
+                Color(red: 0.66, green: 0.90, blue: 0.81),
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 }
 

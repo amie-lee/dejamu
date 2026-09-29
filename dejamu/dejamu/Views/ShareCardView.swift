@@ -52,10 +52,11 @@ struct ShareCardView: View {
 
             Spacer(minLength: 0)
 
-            Text("Dejaμ")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Color(white: 0.6))
-                .lineLimit(1)
+            Image("Wordmark")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 16)
+                .opacity(0.7)
         }
         .padding(16)
         .frame(width: 360, height: 360)

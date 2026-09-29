@@ -80,6 +80,13 @@ struct HomeMapView: View {
             }
             .padding()
 
+            Image("Wordmark")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 40)
+                .padding(.top, 16)
+                .frame(maxHeight: .infinity, alignment: .top)
+
             Color.clear
                 .allowsHitTesting(false)
                 .sheet(isPresented: .constant(true)) {
