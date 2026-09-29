@@ -34,6 +34,24 @@ everything stays on your device.
 | Payments | RevenueCat |
 | Backend | None. Fully local |
 
+## Running it locally
+
+1. **Xcode 16 or later**, targeting iOS 17.0+. The project uses Xcode 16's file-system-synchronized
+   groups, so new files are picked up automatically without editing `project.pbxproj`.
+2. Open `dejamu/dejamu.xcodeproj` and let Xcode resolve the one Swift Package dependency
+   (RevenueCat) automatically on first build.
+3. In **Signing & Capabilities**, select your own Team for both the `dejamu` and
+   `DejamuWidgetExtension` targets (automatic signing works fine, no paid developer account
+   needed for local runs).
+4. Both targets need the same **App Group** capability
+   (`group.com.sy.dejamu`) so the widget can read the same SwiftData store as the main app.
+   Xcode should carry this over from the checked-in entitlements files; if the widget builds but
+   shows no data, re-check that the App Group is enabled on both targets under the same Team.
+5. Run on the iOS Simulator for the core app, but check search, location, silent-switch audio,
+   the widget, and recall notifications on a **physical device** — several of these either behave
+   differently in the Simulator or can't be exercised there at all (Simulator has no hardware
+   mute switch, and its location and network behavior don't always match a real device).
+
 ## Progress
 
 - [x] **1** Project setup + SwiftData `Entry` model + 3 dummy entries → *three pins show on the map*
