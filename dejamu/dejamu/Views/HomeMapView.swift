@@ -107,7 +107,7 @@ struct HomeMapView: View {
     }
 
     private var isMapLocked: Bool {
-        !purchaseManager.isPro && entries.count >= Self.freeEntryLimit
+        !purchaseManager.isPro && entries.count > Self.freeEntryLimit
     }
 
     private var pinnedEntries: [(entry: Entry, coordinate: CLLocationCoordinate2D)] {
