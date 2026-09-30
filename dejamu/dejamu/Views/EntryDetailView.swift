@@ -83,7 +83,7 @@ struct EntryDetailView: View {
                     if let shareImage, let shareImageURL {
                         ShareLink(
                             item: shareImageURL,
-                            preview: SharePreview("\(entry.title) — Dejaμ", image: Image(uiImage: shareImage))
+                            preview: SharePreview("\(entry.title) — dejamu", image: Image(uiImage: shareImage))
                         ) {
                             Image(systemName: "square.and.arrow.up")
                         }
