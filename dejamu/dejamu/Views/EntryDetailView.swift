@@ -8,6 +8,7 @@
 import SwiftData
 import SwiftUI
 import UIKit
+import UniformTypeIdentifiers
 
 struct EntryDetailView: View {
     let entry: Entry
@@ -18,7 +19,6 @@ struct EntryDetailView: View {
     @State private var isEditing = false
     @State private var isShowingDeleteConfirmation = false
     @State private var shareImage: UIImage?
-    @State private var shareImageURL: URL?
 
     private var isPlaying: Bool {
         audioPlayer.playingTrackId == entry.trackId
@@ -80,9 +80,9 @@ struct EntryDetailView: View {
                     Button("Close") { dismiss() }
                 }
                 ToolbarItem(placement: .primaryAction) {
-                    if let shareImage, let shareImageURL {
+                    if let shareImage {
                         ShareLink(
-                            item: shareImageURL,
+                            item: ShareableImage(uiImage: shareImage),
                             preview: SharePreview("\(entry.title) — dejamu", image: Image(uiImage: shareImage))
                         ) {
                             Image(systemName: "square.and.arrow.up")
@@ -133,15 +133,20 @@ struct EntryDetailView: View {
 
         let renderer = ImageRenderer(content: ShareCardView(entry: entry, artworkImage: artworkImage))
         renderer.scale = 3
-        guard let uiImage = renderer.uiImage, let data = uiImage.pngData() else { return }
+        shareImage = renderer.uiImage
+    }
+}
 
-        // ShareLink needs a file URL (not a UIImage or SwiftUI Image) for the system
-        // share sheet to recognize the item as an image and offer "Save Image" up front.
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(entry.id).png")
-        guard (try? data.write(to: url)) != nil else { return }
+/// UIImage and SwiftUI's Image aren't Transferable, and a plain file URL doesn't get
+/// treated as a real photo by the share sheet -- exporting PNG data with an explicit
+/// content type is what actually surfaces "Save Image" as a front-row quick action.
+private struct ShareableImage: Transferable {
+    let uiImage: UIImage
 
-        shareImage = uiImage
-        shareImageURL = url
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .png) { shareable in
+            shareable.uiImage.pngData() ?? Data()
+        }
     }
 }
 
