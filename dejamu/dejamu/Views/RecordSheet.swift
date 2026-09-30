@@ -24,6 +24,8 @@ struct RecordSheet: View {
     @State private var locationManager = LocationManager()
     @State private var resolvedCoordinate: CLLocationCoordinate2D?
     @State private var resolvedPlaceName: String?
+    @State private var isPresentingAddressSearch = false
+    @State private var isLocationManuallySet = false
 
     private static let noteLimit = 140
 
@@ -62,10 +64,19 @@ struct RecordSheet: View {
                 Section {
                     DatePicker("Date", selection: $date, displayedComponents: .date)
                     Toggle("Attach location", isOn: $isLocationOn)
-                    if isLocationOn && resolvedCoordinate == nil {
-                        Text("Locating…")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                    if isLocationOn {
+                        if let resolvedPlaceName {
+                            Text(resolvedPlaceName)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        } else if resolvedCoordinate == nil {
+                            Text("Locating…")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Button("Search address instead") {
+                            isPresentingAddressSearch = true
+                        }
                     }
                 }
             }
@@ -85,6 +96,13 @@ struct RecordSheet: View {
                     selectedTrack = track
                 }
             }
+            .sheet(isPresented: $isPresentingAddressSearch) {
+                AddressSearchView { coordinate, placeName in
+                    resolvedCoordinate = coordinate
+                    resolvedPlaceName = placeName
+                    isLocationManuallySet = true
+                }
+            }
             .onAppear {
                 if isLocationOn {
                     fetchLocation()
@@ -100,9 +118,10 @@ struct RecordSheet: View {
 
     private func fetchLocation() {
         locationManager.requestLocation { coordinate in
-            guard let coordinate else { return }
+            guard let coordinate, !isLocationManuallySet else { return }
             resolvedCoordinate = coordinate
             Task {
+                guard !isLocationManuallySet else { return }
                 resolvedPlaceName = await locationManager.reverseGeocode(coordinate)
             }
         }
