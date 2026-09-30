@@ -8,7 +8,6 @@
 import SwiftData
 import SwiftUI
 import UIKit
-import UniformTypeIdentifiers
 
 struct EntryDetailView: View {
     let entry: Entry
@@ -18,6 +17,7 @@ struct EntryDetailView: View {
     @State private var audioPlayer = AudioPlayer()
     @State private var isEditing = false
     @State private var isShowingDeleteConfirmation = false
+    @State private var isPresentingShareSheet = false
     @State private var shareImage: UIImage?
 
     private var isPlaying: Bool {
@@ -80,11 +80,10 @@ struct EntryDetailView: View {
                     Button("Close") { dismiss() }
                 }
                 ToolbarItem(placement: .primaryAction) {
-                    if let shareImage {
-                        ShareLink(
-                            item: ShareableImage(uiImage: shareImage),
-                            preview: SharePreview("\(entry.title) — dejamu", image: Image(uiImage: shareImage))
-                        ) {
+                    if shareImage != nil {
+                        Button {
+                            isPresentingShareSheet = true
+                        } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
                     }
@@ -102,6 +101,11 @@ struct EntryDetailView: View {
             }
             .sheet(isPresented: $isEditing) {
                 EditEntrySheet(entry: entry)
+            }
+            .sheet(isPresented: $isPresentingShareSheet) {
+                if let shareImage {
+                    ActivityShareSheet(activityItems: [shareImage])
+                }
             }
             .confirmationDialog("Delete this entry?", isPresented: $isShowingDeleteConfirmation, titleVisibility: .visible) {
                 Button("Delete", role: .destructive) {
@@ -137,17 +141,20 @@ struct EntryDetailView: View {
     }
 }
 
-/// UIImage and SwiftUI's Image aren't Transferable, and a plain file URL doesn't get
-/// treated as a real photo by the share sheet -- exporting PNG data with an explicit
-/// content type is what actually surfaces "Save Image" as a front-row quick action.
-private struct ShareableImage: Transferable {
-    let uiImage: UIImage
+/// Neither a Transferable-wrapped Data export nor a file URL got the system share
+/// sheet to offer "Save Image" as a front-row action -- SwiftUI's ShareLink hands
+/// the share sheet an NSItemProvider, and UIKit's built-in Save Image action only
+/// recognizes an actual UIImage instance among the activity items. Presenting
+/// UIActivityViewController directly with the UIImage itself is what Photos itself
+/// does, and is the only path that reliably surfaces it.
+private struct ActivityShareSheet: UIViewControllerRepresentable {
+    let activityItems: [Any]
 
-    static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation(exportedContentType: .png) { shareable in
-            shareable.uiImage.pngData() ?? Data()
-        }
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
     }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 #Preview {
