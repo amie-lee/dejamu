@@ -17,7 +17,8 @@ struct EntryDetailView: View {
     @State private var audioPlayer = AudioPlayer()
     @State private var isEditing = false
     @State private var isShowingDeleteConfirmation = false
-    @State private var shareImage: Image?
+    @State private var shareImage: UIImage?
+    @State private var shareImageURL: URL?
 
     private var isPlaying: Bool {
         audioPlayer.playingTrackId == entry.trackId
@@ -79,10 +80,10 @@ struct EntryDetailView: View {
                     Button("Close") { dismiss() }
                 }
                 ToolbarItem(placement: .primaryAction) {
-                    if let shareImage {
+                    if let shareImage, let shareImageURL {
                         ShareLink(
-                            item: shareImage,
-                            preview: SharePreview("\(entry.title) — Dejaμ", image: shareImage)
+                            item: shareImageURL,
+                            preview: SharePreview("\(entry.title) — Dejaμ", image: Image(uiImage: shareImage))
                         ) {
                             Image(systemName: "square.and.arrow.up")
                         }
@@ -132,9 +133,15 @@ struct EntryDetailView: View {
 
         let renderer = ImageRenderer(content: ShareCardView(entry: entry, artworkImage: artworkImage))
         renderer.scale = 3
-        if let uiImage = renderer.uiImage {
-            shareImage = Image(uiImage: uiImage)
-        }
+        guard let uiImage = renderer.uiImage, let data = uiImage.pngData() else { return }
+
+        // ShareLink needs a file URL (not a UIImage or SwiftUI Image) for the system
+        // share sheet to recognize the item as an image and offer "Save Image" up front.
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(entry.id).png")
+        guard (try? data.write(to: url)) != nil else { return }
+
+        shareImage = uiImage
+        shareImageURL = url
     }
 }
 
